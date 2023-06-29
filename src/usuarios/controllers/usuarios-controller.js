@@ -3,8 +3,8 @@ const Usuario = require("../models/usuario");
 const routes = express.Router();
 
 function findAllRoute(){
-routes.get('/usuarios', (req, res) => {
- res.json([]);
+routes.get('/usuarios', async(req, res) => {
+ res.json(await Usuario.findAll());
 } );
 }
 
@@ -17,23 +17,46 @@ function createRoute(){
     }
 
     function findByIdRoute(){
-        routes.get('/usuarios/:meuParametro', (req, res) => {
+        routes.get('/usuarios/:meuParametro', async (req, res) => {
             console.log(req.params)
-         res.json([]);
-        } );
-        }
+        
+            const usuario = await Usuario.findOne({where: 
+                {meuParametro: req.params.meuParametro}})
 
-        function updateRoute(){
-            routes.put('/usuarios', (req, res) => {
-                console.log(req.body)
-             res.json([]);
-            } );
-            }
+            if (usuario === null) {
+                console.log('Not found!');
+
+              } else {
+                console.log(usuario instanceof Usuario); 
+                console.log(usuario.meuParametro); 
+                res.json(usuario)
+              }
+              })
+        } 
+        
+
+        function updateRoute() {
+            routes.put('/usuarios/:meuParametro', async (req, res) => {
+                const usuario = await Usuario.update(req.body,{
+                    where:{
+                        meuParametro:req.body.meuParametro
+        
+                    }
+                })
+                res.json(req.body)
+            });
+          }
+          
 
             function removeRoute(){
-                routes.delete('/usuarios/:meuParametro', (req, res) => {
+                routes.delete('/usuarios/:meuParametro', async(req, res) => {
                     console.log(req.params)
-                 res.json([]);
+
+                 const usuario = await Usuario.destroy({ where: 
+                    {meuParametro: req.params.meuParametro} });
+                    console.log(usuario.meuParametro); 
+                    
+                    res.json(usuario);
                 } );
                 }
 
