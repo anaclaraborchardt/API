@@ -10,6 +10,9 @@ app.use(router);
 require ("./database/connection")
 
 require('./usuarios/models/usuario')
+require('./usuarios/models/properties')
+require('./usuarios/models/cards')
+
 
 app.listen(4300, () => {
     console.log('Servidor rodando rodando na porta 4300');

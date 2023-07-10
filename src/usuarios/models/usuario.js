@@ -23,8 +23,8 @@ Usuario.init({
         type: DataTypes.STRING,
         allowNull:false,
         unique: true
-    }
-},{
+    },
+    },{
     sequelize: connection,
     modelName: 'users'
 });
